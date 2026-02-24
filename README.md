@@ -1,36 +1,67 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Rural Home Guide
+
+A Next.js holding page for [ruralhomeguide.com](https://ruralhomeguide.com) — the complete guide to rural homeownership.
+
+---
+
+## ⚠️ Branch Policy
+
+> **Always push to `dev-clawdbot` — never to `dev` or `main`.**
+
+| Branch | Purpose |
+|---|---|
+| `dev-clawdbot` | AI agent working branch — all automated commits go here |
+| `dev` | Human-reviewed development branch |
+| `main` | Production — protected, PRs only |
+
+---
+
+## Email Capture — Listmonk Integration
+
+This site uses [Listmonk](https://listmonk.app) (self-hosted) for email capture.
+
+**Server:** `YOUR_LISTMONK_SERVER_IP`
+**Admin UI:** `http://YOUR_LISTMONK_SERVER_IP:9000`
+
+### Setup
+
+1. Copy `.env.local.example` → `.env.local`
+2. Fill in your Listmonk credentials and list UUID (see Listmonk admin → Lists)
+3. For Vercel: add the same env vars in project Settings → Environment Variables
+
+### Environment Variables
+
+| Variable | Description |
+|---|---|
+| `LISTMONK_URL` | Base URL of Listmonk instance (e.g. `http://YOUR_LISTMONK_SERVER_IP:9000`) |
+| `LISTMONK_LIST_UUID` | UUID of the target mailing list |
+| `LISTMONK_USERNAME` | Listmonk admin username |
+| `LISTMONK_PASSWORD` | Listmonk admin password |
+
+### How it works
+
+- `/app/components/EmailForm.tsx` — client-side form component
+- `/app/api/subscribe/route.ts` — Next.js API route that calls Listmonk's subscriber API
+- New signups are added directly to the configured Listmonk list
+- Duplicate signups (409) are silently accepted
+
+---
 
 ## Getting Started
 
-First, run the development server:
-
 ```bash
+npm install
+cp .env.local.example .env.local
+# Fill in .env.local values, then:
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Stack
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- [Next.js](https://nextjs.org) (App Router)
+- [Listmonk](https://listmonk.app) — self-hosted email
+- Deploy via [Vercel](https://vercel.com)
