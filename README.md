@@ -34,7 +34,7 @@ This site uses [Listmonk](https://listmonk.app) (self-hosted) for email capture.
 | Variable | Description |
 |---|---|
 | `LISTMONK_URL` | Base URL of Listmonk instance (e.g. `http://68.183.169.190:9000`) |
-| `LISTMONK_LIST_UUID` | UUID of the target mailing list |
+| `LISTMONK_LIST_UUID` | `fd325703-9f7d-49ed-b07f-57b43ac8348e` (Rural Home Guide list) |
 | `LISTMONK_USERNAME` | Listmonk admin username |
 | `LISTMONK_PASSWORD` | Listmonk admin password |
 
