@@ -20,8 +20,8 @@ A Next.js holding page for [ruralhomeguide.com](https://ruralhomeguide.com) — 
 
 This site uses [Listmonk](https://listmonk.app) (self-hosted) for email capture.
 
-**Server:** `68.183.169.190`
-**Admin UI:** `http://68.183.169.190:9000`
+**Server:** `YOUR_LISTMONK_SERVER_IP`
+**Admin UI:** `http://YOUR_LISTMONK_SERVER_IP:9000`
 
 ### Setup
 
@@ -33,8 +33,8 @@ This site uses [Listmonk](https://listmonk.app) (self-hosted) for email capture.
 
 | Variable | Description |
 |---|---|
-| `LISTMONK_URL` | Base URL of Listmonk instance (e.g. `http://68.183.169.190:9000`) |
-| `LISTMONK_LIST_UUID` | `fd325703-9f7d-49ed-b07f-57b43ac8348e` (Rural Home Guide list) |
+| `LISTMONK_URL` | Base URL of Listmonk instance (e.g. `http://YOUR_LISTMONK_SERVER_IP:9000`) |
+| `LISTMONK_LIST_UUID` | UUID of your Listmonk list (find in Listmonk admin → Lists) |
 | `LISTMONK_USERNAME` | Listmonk admin username |
 | `LISTMONK_PASSWORD` | Listmonk admin password |
 

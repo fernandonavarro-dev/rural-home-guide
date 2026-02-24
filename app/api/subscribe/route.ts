@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 // Listmonk self-hosted email capture integration
 // Env vars required (set in .env.local or Vercel project settings):
-//   LISTMONK_URL        — e.g. http://68.183.169.190:9000
+//   LISTMONK_URL        — e.g. http://YOUR_LISTMONK_SERVER_IP:9000
 //   LISTMONK_LIST_UUID  — UUID of the list to subscribe to (from Listmonk admin)
 //   LISTMONK_USERNAME   — Listmonk admin username (for API auth)
 //   LISTMONK_PASSWORD   — Listmonk admin password (for API auth)
