@@ -1,6 +1,6 @@
 # Rural Home Guide — Project Status
 
-_Last updated: 2026-02-25_
+_Last updated: 2026-02-25 (session 2)_
 
 ---
 
@@ -27,6 +27,10 @@ _Last updated: 2026-02-25_
 | Button hover/disabled | ✅ Done | Hover darkens, disabled fades gracefully |
 | Listmonk email template | ✅ Done | `docs/listmonk-confirmation-email.html` — branded, mobile-friendly |
 | Facebook page copy | ✅ Done | `docs/facebook-page-copy.md` — name, bio, about, pinned post, cover photo spec |
+| Vercel Analytics | ✅ Done | `@vercel/analytics` installed + `<Analytics />` in layout |
+| OG image (dynamic) | ✅ Done | `app/opengraph-image.tsx` — edge runtime, auto-renders 1200×630 on deploy |
+| OG image spec | ✅ Done | `docs/og-image-spec.md` — full layout, colors, type, manual + code options |
+| Content outline | ✅ Done | `docs/content-outline.md` — 24 article briefs, 6 pillars, launch slate, calendar |
 
 ---
 
@@ -34,13 +38,14 @@ _Last updated: 2026-02-25_
 
 | Item | Status | Notes |
 |---|---|---|
+| OG image (dynamic) | ✅ Done | `app/opengraph-image.tsx` — auto-generated via Next.js edge runtime, no static file needed |
+| Vercel Analytics | ✅ Done | `@vercel/analytics` installed, `<Analytics />` in layout — active on next deploy |
+| OG image spec | ✅ Done | `docs/og-image-spec.md` — full layout, colors, typography, Figma/Canva/code options |
+| Content outline | ✅ Done | `docs/content-outline.md` — 24 articles across 6 pillars, launch slate, editorial calendar |
 | Listmonk agent access | ⏳ Pending | Need clawdbot account — dashboard URL + password |
 | Email capture end-to-end test | ⏳ Pending | Test full subscribe flow once Listmonk creds confirmed |
-| OG image | ⏳ Pending | `/public/og-image.png` (1200×630) — referenced in meta but not yet created |
 | Favicon PNG files | ⏳ Pending | `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` — referenced but not yet created |
 | Facebook page setup | ⏳ Pending | Apply copy from `docs/facebook-page-copy.md`, add cover/profile photo |
-| Vercel Analytics | ⏳ Pending | One-line add for traffic baseline from day one |
-| Content outline | ⏳ Pending | First 10-15 article briefs |
 
 ---
 
