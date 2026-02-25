@@ -2,10 +2,34 @@ import { NextRequest, NextResponse } from "next/server";
 
 // Listmonk self-hosted email capture integration
 // Env vars required (set in .env.local or Vercel project settings):
-//   LISTMONK_URL        — e.g. http://YOUR_LISTMONK_SERVER_IP:9000
+//   LISTMONK_URL        — e.g. https://listmonk.yoursite.com
 //   LISTMONK_LIST_UUID  — UUID of the list to subscribe to (from Listmonk admin)
 //   LISTMONK_USERNAME   — Listmonk admin username (for API auth)
 //   LISTMONK_PASSWORD   — Listmonk admin password (for API auth)
+//
+// NOTE: This Listmonk instance uses session-based auth (not HTTP Basic Auth).
+// We log in via the admin form to obtain a session cookie, then use it for the API call.
+
+async function getListmonkSession(baseUrl: string, username: string, password: string): Promise<string | null> {
+  const formData = new URLSearchParams();
+  formData.append("username", username);
+  formData.append("password", password);
+
+  const loginRes = await fetch(`${baseUrl}/admin/login`, {
+    method: "POST",
+    headers: { "Content-Type": "application/x-www-form-urlencoded" },
+    body: formData.toString(),
+    redirect: "manual", // don't follow redirect — we just want the Set-Cookie header
+  });
+
+  // A successful login issues a 302 redirect with a Set-Cookie session header
+  const setCookie = loginRes.headers.get("set-cookie");
+  if (!setCookie) return null;
+
+  // Extract the session token: "session=<token>; ..."
+  const match = setCookie.match(/session=([^;]+)/);
+  return match ? match[1] : null;
+}
 
 export async function POST(req: NextRequest) {
   try {
@@ -21,18 +45,23 @@ export async function POST(req: NextRequest) {
     const username = process.env.LISTMONK_USERNAME;
     const password = process.env.LISTMONK_PASSWORD;
 
-    if (!listmonkUrl || !listUuid) {
-      console.error("[subscribe] Missing LISTMONK_URL or LISTMONK_LIST_UUID env vars");
+    if (!listmonkUrl || !listUuid || !username || !password) {
+      console.error("[subscribe] Missing required LISTMONK_* env vars");
       return NextResponse.json({ error: "Email service not configured." }, { status: 500 });
     }
 
-    const credentials = Buffer.from(`${username}:${password}`).toString("base64");
+    // Obtain a session cookie by logging in
+    const sessionToken = await getListmonkSession(listmonkUrl, username, password);
+    if (!sessionToken) {
+      console.error("[subscribe] Failed to obtain Listmonk session — check credentials");
+      return NextResponse.json({ error: "Email service authentication failed." }, { status: 500 });
+    }
 
     const listmonkRes = await fetch(`${listmonkUrl}/api/subscribers`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Authorization: `Basic ${credentials}`,
+        Cookie: `session=${sessionToken}`,
       },
       body: JSON.stringify({
         email,
