@@ -39,6 +39,8 @@ export default function EmailForm() {
   if (status === "success") {
     return (
       <p
+        role="status"
+        aria-live="polite"
         style={{
           color: "#2E6B1A",
           fontFamily: "system-ui, sans-serif",
@@ -52,15 +54,29 @@ export default function EmailForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}>
+    <form
+      onSubmit={handleSubmit}
+      style={{ display: "flex", flexDirection: "column", gap: "0.75rem" }}
+      noValidate
+      aria-label="Email signup form"
+    >
       <div style={{ display: "flex", gap: "0.5rem", flexWrap: "wrap" }}>
+        <label htmlFor="email-input" className="sr-only">
+          Email address
+        </label>
         <input
+          id="email-input"
           type="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           placeholder="your@email.com"
           required
           disabled={status === "loading"}
+          autoComplete="email"
+          aria-label="Email address"
+          aria-describedby={status === "error" ? "email-error" : undefined}
+          aria-invalid={status === "error" ? "true" : undefined}
+          className="email-input"
           style={{
             flex: "1",
             minWidth: "220px",
@@ -77,6 +93,7 @@ export default function EmailForm() {
         <button
           type="submit"
           disabled={status === "loading"}
+          className="notify-btn"
           style={{
             padding: "0.75rem 1.5rem",
             fontSize: "1rem",
@@ -90,11 +107,14 @@ export default function EmailForm() {
             whiteSpace: "nowrap",
           }}
         >
-          {status === "loading" ? "..." : "Notify me"}
+          {status === "loading" ? "Submitting…" : "Notify me"}
         </button>
       </div>
       {status === "error" && (
         <p
+          id="email-error"
+          role="alert"
+          aria-live="assertive"
           style={{
             color: "#B91C1C",
             fontFamily: "system-ui, sans-serif",
