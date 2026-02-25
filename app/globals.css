@@ -22,3 +22,35 @@ body {
   font-family: 'Georgia', serif;
   -webkit-font-smoothing: antialiased;
 }
+
+/* Screen-reader only utility */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* Focus styles — keyboard navigation */
+.email-input:focus-visible {
+  border-color: var(--amber);
+  box-shadow: 0 0 0 3px rgba(196, 134, 10, 0.25);
+}
+
+.notify-btn:focus-visible {
+  outline: 3px solid var(--amber);
+  outline-offset: 2px;
+}
+
+.notify-btn:hover:not(:disabled) {
+  background-color: #A87008;
+}
+
+.notify-btn:disabled {
+  opacity: 0.65;
+}

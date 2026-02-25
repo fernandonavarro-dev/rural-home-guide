@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>You're on the list — Rural Home Guide</title>
+  <!--
+    Listmonk Confirmation Email Template
+    =====================================
+    To use: paste this into Listmonk → Campaigns → Templates (or as a transactional template).
+    Listmonk template variables available:
+      {{ .Subscriber.Email }}   — subscriber's email
+      {{ .Subscriber.Name }}    — subscriber's name
+      {{ .OptinURL }}           — double opt-in confirmation link (if enabled)
+  -->
+</head>
+<body style="margin:0;padding:0;background-color:#F7F4EE;font-family:system-ui,-apple-system,sans-serif;">
+
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color:#F7F4EE;padding:40px 16px;">
+    <tr>
+      <td align="center">
+
+        <!-- Card -->
+        <table width="100%" cellpadding="0" cellspacing="0" border="0"
+          style="max-width:560px;background-color:#FFFFFF;border-radius:10px;border:1px solid #E5DFD3;overflow:hidden;">
+
+          <!-- Header bar -->
+          <tr>
+            <td style="background-color:#1A3A0F;padding:24px 32px;">
+              <p style="margin:0;font-family:Georgia,serif;font-size:18px;font-weight:700;color:#FFFFFF;letter-spacing:0.02em;">
+                Rural Home Guide
+              </p>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:36px 32px 28px;">
+
+              <p style="margin:0 0 20px;font-size:26px;font-weight:700;font-family:Georgia,serif;color:#1A3A0F;line-height:1.3;">
+                You're on the list. 🌿
+              </p>
+
+              <p style="margin:0 0 16px;font-size:16px;color:#374151;line-height:1.7;">
+                Thanks for signing up. We'll send you one email when Rural Home Guide goes live — no fluff, no spam, just a heads-up.
+              </p>
+
+              <p style="margin:0 0 24px;font-size:16px;color:#374151;line-height:1.7;">
+                We're building the guide we wish had existed when we bought rural property — real answers on private wells, septic systems, propane, water rights, and everything else the real estate agent never told you.
+              </p>
+
+              <!-- Topic pills -->
+              <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+                <tr>
+                  <td>
+                    <p style="margin:0 0 12px;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;">
+                      What we're covering
+                    </p>
+                    <p style="margin:0;font-size:14px;color:#374151;line-height:2;">
+                      <span style="display:inline-block;background:#F7F4EE;border:1px solid #D1C9B8;border-radius:5px;padding:3px 10px;margin:2px 4px 2px 0;">Private Wells</span>
+                      <span style="display:inline-block;background:#F7F4EE;border:1px solid #D1C9B8;border-radius:5px;padding:3px 10px;margin:2px 4px 2px 0;">Septic Systems</span>
+                      <span style="display:inline-block;background:#F7F4EE;border:1px solid #D1C9B8;border-radius:5px;padding:3px 10px;margin:2px 4px 2px 0;">Propane</span>
+                      <span style="display:inline-block;background:#F7F4EE;border:1px solid #D1C9B8;border-radius:5px;padding:3px 10px;margin:2px 4px 2px 0;">Water Rights</span>
+                      <span style="display:inline-block;background:#F7F4EE;border:1px solid #D1C9B8;border-radius:5px;padding:3px 10px;margin:2px 4px 2px 0;">Land & Property</span>
+                    </p>
+                  </td>
+                </tr>
+              </table>
+
+              <!-- CTA (used if double opt-in is enabled) -->
+              <!--
+              <table cellpadding="0" cellspacing="0" border="0" style="margin-bottom:28px;">
+                <tr>
+                  <td style="background-color:#C4860A;border-radius:6px;">
+                    <a href="{{ .OptinURL }}"
+                      style="display:inline-block;padding:12px 28px;font-size:15px;font-weight:600;font-family:system-ui,sans-serif;color:#FFFFFF;text-decoration:none;">
+                      Confirm my spot →
+                    </a>
+                  </td>
+                </tr>
+              </table>
+              <p style="margin:0 0 24px;font-size:13px;color:#9CA3AF;line-height:1.6;">
+                If you didn't sign up, you can ignore this email. No action needed.
+              </p>
+              -->
+
+            </td>
+          </tr>
+
+          <!-- Footer -->
+          <tr>
+            <td style="padding:20px 32px;border-top:1px solid #E5DFD3;background-color:#F7F4EE;">
+              <p style="margin:0;font-size:12px;color:#9CA3AF;line-height:1.6;">
+                You're receiving this because you signed up at
+                <a href="https://www.ruralhomeguide.com" style="color:#C4860A;text-decoration:none;">ruralhomeguide.com</a>.
+                <br />
+                <!-- Listmonk unsubscribe tag — required for compliance -->
+                Don't want emails? <a href="{{ .UnsubscribeURL }}" style="color:#9CA3AF;">Unsubscribe</a>.
+              </p>
+            </td>
+          </tr>
+
+        </table>
+        <!-- /Card -->
+
+      </td>
+    </tr>
+  </table>
+
+</body>
+</html>

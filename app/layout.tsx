@@ -1,17 +1,58 @@
 import type { Metadata } from "next";
 import "./globals.css";
 
+const BASE_URL = "https://www.ruralhomeguide.com";
+
 export const metadata: Metadata = {
+  metadataBase: new URL(BASE_URL),
   title: "Rural Home Guide — Coming Soon",
   description:
-    "The complete guide to rural homeownership. Private wells, septic systems, and everything in between.",
+    "The complete guide to rural homeownership. Private wells, septic systems, propane, water rights, and everything in between. Real answers — without the jargon.",
+  alternates: {
+    canonical: BASE_URL,
+  },
   openGraph: {
     title: "Rural Home Guide",
     description:
-      "The complete guide to rural homeownership. Private wells, septic systems, and everything in between.",
-    url: "https://ruralhomeguide.com",
+      "The complete guide to rural homeownership. Private wells, septic systems, propane, water rights, and everything in between.",
+    url: BASE_URL,
     siteName: "Rural Home Guide",
     type: "website",
+    locale: "en_US",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Rural Home Guide — The complete guide to rural homeownership",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Rural Home Guide",
+    description:
+      "The complete guide to rural homeownership. Private wells, septic systems, propane, water rights, and everything in between.",
+    images: ["/og-image.png"],
+  },
+  icons: {
+    icon: [
+      { url: "/favicon.ico" },
+      { url: "/favicon-16x16.png", sizes: "16x16", type: "image/png" },
+      { url: "/favicon-32x32.png", sizes: "32x32", type: "image/png" },
+    ],
+    apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
+    other: [{ rel: "manifest", url: "/site.webmanifest" }],
+  },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+    },
   },
 };
 
