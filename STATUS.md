@@ -42,9 +42,9 @@ _Last updated: 2026-02-25 (session 2)_
 | Vercel Analytics | ✅ Done | `@vercel/analytics` installed, `<Analytics />` in layout — active on next deploy |
 | OG image spec | ✅ Done | `docs/og-image-spec.md` — full layout, colors, typography, Figma/Canva/code options |
 | Content outline | ✅ Done | `docs/content-outline.md` — 24 articles across 6 pillars, launch slate, editorial calendar |
-| Listmonk agent access | ⏳ Pending | Need clawdbot account — dashboard URL + password |
-| Email capture end-to-end test | ⏳ Pending | Test full subscribe flow once Listmonk creds confirmed |
-| Favicon PNG files | ⏳ Pending | `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` — referenced but not yet created |
+| Listmonk agent access | ✅ Done | Admin creds confirmed working via session-based auth |
+| Email capture end-to-end test | ✅ Done | Full flow tested: session login → UUID-to-ID lookup → subscriber created (confirmed status) |
+| Favicon PNG files | ✅ Done | `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` generated (green #1A3A0F + cream "R") |
 | Facebook page setup | ⏳ Pending | Apply copy from `docs/facebook-page-copy.md`, add cover/profile photo |
 
 ---
