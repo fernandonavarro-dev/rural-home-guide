@@ -1,44 +1,46 @@
 import { NextRequest, NextResponse } from "next/server";
 
 // Listmonk self-hosted email capture integration
-// Env vars required (set in .env.local or Vercel project settings):
-//   LISTMONK_URL        — e.g. https://listmonk.yoursite.com
-//   LISTMONK_LIST_UUID  — UUID of the list to subscribe to (from Listmonk admin)
-//   LISTMONK_USERNAME   — Listmonk admin username (for API auth)
-//   LISTMONK_PASSWORD   — Listmonk admin password (for API auth)
+// Env vars required (set in Vercel project settings):
+//   LISTMONK_URL        — e.g. https://listmonk.yoursite.com  (no trailing slash)
+//   LISTMONK_LIST_UUID  — UUID of the list to subscribe to (from Listmonk admin → Lists)
+//   LISTMONK_USERNAME   — Listmonk admin username
+//   LISTMONK_PASSWORD   — Listmonk admin password
 //
-// NOTE: This Listmonk instance uses session-based auth (not HTTP Basic Auth).
-// We log in via the admin form to obtain a session cookie, then use it for the API call.
+// Uses HTTP Basic Auth — simpler and more reliable than session-based auth for serverless.
 
-async function getListId(baseUrl: string, sessionToken: string, listUuid: string): Promise<number | null> {
-  const res = await fetch(`${baseUrl}/api/lists`, {
-    headers: { Cookie: `session=${sessionToken}` },
-  });
-  if (!res.ok) return null;
-  const data = await res.json();
-  const list = data?.data?.results?.find((l: { uuid: string; id: number }) => l.uuid === listUuid);
-  return list?.id ?? null;
+function basicAuthHeader(username: string, password: string): string {
+  return "Basic " + Buffer.from(`${username}:${password}`).toString("base64");
 }
 
-async function getListmonkSession(baseUrl: string, username: string, password: string): Promise<string | null> {
-  const formData = new URLSearchParams();
-  formData.append("username", username);
-  formData.append("password", password);
-
-  const loginRes = await fetch(`${baseUrl}/admin/login`, {
-    method: "POST",
-    headers: { "Content-Type": "application/x-www-form-urlencoded" },
-    body: formData.toString(),
-    redirect: "manual", // don't follow redirect — we just want the Set-Cookie header
-  });
-
-  // A successful login issues a 302 redirect with a Set-Cookie session header
-  const setCookie = loginRes.headers.get("set-cookie");
-  if (!setCookie) return null;
-
-  // Extract the session token: "session=<token>; ..."
-  const match = setCookie.match(/session=([^;]+)/);
-  return match ? match[1] : null;
+async function getListId(
+  baseUrl: string,
+  authHeader: string,
+  listUuid: string
+): Promise<number | null> {
+  try {
+    const res = await fetch(`${baseUrl}/api/lists`, {
+      headers: { Authorization: authHeader },
+    });
+    if (!res.ok) {
+      console.error(`[subscribe] /api/lists returned ${res.status}`);
+      return null;
+    }
+    const data = await res.json();
+    const list = data?.data?.results?.find(
+      (l: { uuid: string; id: number }) => l.uuid === listUuid
+    );
+    if (!list) {
+      console.error(
+        `[subscribe] List UUID "${listUuid}" not found in Listmonk. Found:`,
+        data?.data?.results?.map((l: { uuid: string; name: string }) => ({ uuid: l.uuid, name: l.name }))
+      );
+    }
+    return list?.id ?? null;
+  } catch (err) {
+    console.error("[subscribe] Error fetching list ID:", err);
+    return null;
+  }
 }
 
 export async function POST(req: NextRequest) {
@@ -50,27 +52,26 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Invalid email address." }, { status: 400 });
     }
 
-    const listmonkUrl = process.env.LISTMONK_URL;
+    const listmonkUrl = process.env.LISTMONK_URL?.replace(/\/$/, ""); // strip trailing slash
     const listUuid = process.env.LISTMONK_LIST_UUID;
     const username = process.env.LISTMONK_USERNAME;
     const password = process.env.LISTMONK_PASSWORD;
 
     if (!listmonkUrl || !listUuid || !username || !password) {
-      console.error("[subscribe] Missing required LISTMONK_* env vars");
+      console.error("[subscribe] Missing LISTMONK_* env vars. Present:", {
+        url: !!listmonkUrl,
+        uuid: !!listUuid,
+        user: !!username,
+        pass: !!password,
+      });
       return NextResponse.json({ error: "Email service not configured." }, { status: 500 });
     }
 
-    // Obtain a session cookie by logging in
-    const sessionToken = await getListmonkSession(listmonkUrl, username, password);
-    if (!sessionToken) {
-      console.error("[subscribe] Failed to obtain Listmonk session — check credentials");
-      return NextResponse.json({ error: "Email service authentication failed." }, { status: 500 });
-    }
+    const authHeader = basicAuthHeader(username, password);
 
-    // Resolve the list UUID to the integer ID required by the API
-    const listId = await getListId(listmonkUrl, sessionToken, listUuid);
+    // Resolve the list UUID to the integer ID required by the subscriber API
+    const listId = await getListId(listmonkUrl, authHeader, listUuid);
     if (!listId) {
-      console.error("[subscribe] Could not resolve list UUID to ID — check LISTMONK_LIST_UUID");
       return NextResponse.json({ error: "Email service configuration error." }, { status: 500 });
     }
 
@@ -78,11 +79,11 @@ export async function POST(req: NextRequest) {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        Cookie: `session=${sessionToken}`,
+        Authorization: authHeader,
       },
       body: JSON.stringify({
         email,
-        name: email.split("@")[0], // Use email prefix as name fallback
+        name: email.split("@")[0],
         status: "enabled",
         lists: [listId],
         preconfirm_subscriptions: true,
@@ -92,19 +93,19 @@ export async function POST(req: NextRequest) {
     if (!listmonkRes.ok) {
       const errBody = await listmonkRes.text();
 
-      // Listmonk returns 409 if the subscriber already exists — treat as success
+      // 409 = subscriber already exists — treat as success
       if (listmonkRes.status === 409) {
         return NextResponse.json({ success: true }, { status: 200 });
       }
 
-      console.error(`[subscribe] Listmonk error ${listmonkRes.status}: ${errBody}`);
+      console.error(`[subscribe] Listmonk /api/subscribers error ${listmonkRes.status}: ${errBody}`);
       return NextResponse.json({ error: "Failed to subscribe. Please try again." }, { status: 500 });
     }
 
-    console.log(`[subscribe] New signup added to Listmonk: ${email}`);
+    console.log(`[subscribe] New signup: ${email}`);
     return NextResponse.json({ success: true }, { status: 200 });
   } catch (err) {
-    console.error("[subscribe] Error:", err);
+    console.error("[subscribe] Unexpected error:", err);
     return NextResponse.json({ error: "Server error." }, { status: 500 });
   }
 }
