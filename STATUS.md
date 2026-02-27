@@ -30,6 +30,10 @@ _Last updated: 2026-02-27 (session 4)_
 | Vercel Analytics | ✅ Done | `@vercel/analytics` installed + `<Analytics />` in layout |
 | OG image (dynamic) | ✅ Done | `app/opengraph-image.tsx` — edge runtime, auto-renders 1200×630 on deploy |
 | OG image spec | ✅ Done | `docs/og-image-spec.md` — full layout, colors, type, manual + code options |
+| RHG logo (badge) | ✅ Done | `public/RHG-v1.png` — circular badge, earthy palette, Gemini-generated |
+| Logo in header | ✅ Done | 40px logo + wordmark in header on all pages (home, guides, guide detail) |
+| Logo in OG image | ✅ Done | 72px logo in top-left of social share card |
+| Favicon set | ✅ Done | Replaced with RHG transparent logo: 16/32/180/512px + favicon.ico |
 | Content outline | ✅ Done | `docs/content-outline.md` — 24 article briefs, 6 pillars, launch slate, calendar |
 | MDX blog pipeline | ✅ Done | `@next/mdx`, `next-mdx-remote`, `gray-matter` installed; `next.config.ts` updated; `mdx-components.tsx` created |
 | MDX content library | ✅ Done | `content/guides/` — 7 full MDX articles with frontmatter |
