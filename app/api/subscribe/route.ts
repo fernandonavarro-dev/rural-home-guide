@@ -10,6 +10,16 @@ import { NextRequest, NextResponse } from "next/server";
 // NOTE: This Listmonk instance uses session-based auth (not HTTP Basic Auth).
 // We log in via the admin form to obtain a session cookie, then use it for the API call.
 
+async function getListId(baseUrl: string, sessionToken: string, listUuid: string): Promise<number | null> {
+  const res = await fetch(`${baseUrl}/api/lists`, {
+    headers: { Cookie: `session=${sessionToken}` },
+  });
+  if (!res.ok) return null;
+  const data = await res.json();
+  const list = data?.data?.results?.find((l: { uuid: string; id: number }) => l.uuid === listUuid);
+  return list?.id ?? null;
+}
+
 async function getListmonkSession(baseUrl: string, username: string, password: string): Promise<string | null> {
   const formData = new URLSearchParams();
   formData.append("username", username);
@@ -57,6 +67,13 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email service authentication failed." }, { status: 500 });
     }
 
+    // Resolve the list UUID to the integer ID required by the API
+    const listId = await getListId(listmonkUrl, sessionToken, listUuid);
+    if (!listId) {
+      console.error("[subscribe] Could not resolve list UUID to ID — check LISTMONK_LIST_UUID");
+      return NextResponse.json({ error: "Email service configuration error." }, { status: 500 });
+    }
+
     const listmonkRes = await fetch(`${listmonkUrl}/api/subscribers`, {
       method: "POST",
       headers: {
@@ -67,7 +84,7 @@ export async function POST(req: NextRequest) {
         email,
         name: email.split("@")[0], // Use email prefix as name fallback
         status: "enabled",
-        lists: [listUuid],
+        lists: [listId],
         preconfirm_subscriptions: true,
       }),
     });
