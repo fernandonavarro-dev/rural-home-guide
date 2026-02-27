@@ -58,11 +58,12 @@ export async function POST(req: NextRequest) {
 
     const listmonkUrl = process.env.LISTMONK_URL?.replace(/\/$/, "");
     const listUuid = process.env.LISTMONK_LIST_UUID;
+    const listIdEnv = process.env.LISTMONK_LIST_ID; // optional shortcut — skips UUID lookup
     const username = process.env.LISTMONK_USERNAME;
     const password = process.env.LISTMONK_PASSWORD;
 
-    if (!listmonkUrl || !listUuid || !username || !password) {
-      console.error("[subscribe] Missing env vars:", { url: !!listmonkUrl, uuid: !!listUuid, user: !!username, pass: !!password });
+    if (!listmonkUrl || !username || !password || (!listUuid && !listIdEnv)) {
+      console.error("[subscribe] Missing env vars:", { url: !!listmonkUrl, uuid: !!listUuid, listId: !!listIdEnv, user: !!username, pass: !!password });
       return NextResponse.json({ error: "E1: service not configured." }, { status: 500 });
     }
 
@@ -97,30 +98,33 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "E2: auth failed." }, { status: 500 });
     }
 
-    // Step 2: Resolve list UUID → ID
-    let listId: number | null = null;
-    try {
-      const listRes = await makeRequest(
-        `${listmonkUrl}/api/lists`,
-        "GET",
-        null,
-        { Cookie: `session=${sessionToken}` }
-      );
-      if (listRes.status !== 200) {
-        console.error("[subscribe] E3: /api/lists returned", listRes.status, listRes.body.slice(0, 100));
-      } else {
-        const data = JSON.parse(listRes.body);
-        const list = data?.data?.results?.find(
-          (l: { uuid: string; id: number }) => l.uuid === listUuid
+    // Step 2: Resolve list ID (use env shortcut if set, otherwise look up by UUID)
+    let listId: number | null = listIdEnv ? parseInt(listIdEnv, 10) : null;
+
+    if (!listId && listUuid) {
+      try {
+        const listRes = await makeRequest(
+          `${listmonkUrl}/api/lists`,
+          "GET",
+          null,
+          { Cookie: `session=${sessionToken}` }
         );
-        if (list) {
-          listId = list.id;
+        if (listRes.status !== 200) {
+          console.error("[subscribe] E3: /api/lists returned", listRes.status, listRes.body.slice(0, 100));
         } else {
-          console.error("[subscribe] E4: UUID not found in lists. Available:", data?.data?.results?.map((l: { uuid: string }) => l.uuid));
+          const data = JSON.parse(listRes.body);
+          const list = data?.data?.results?.find(
+            (l: { uuid: string; id: number }) => l.uuid === listUuid
+          );
+          if (list) {
+            listId = list.id;
+          } else {
+            console.error("[subscribe] E4: UUID not found. Available:", data?.data?.results?.map((l: { uuid: string }) => l.uuid));
+          }
         }
+      } catch (err) {
+        console.error("[subscribe] E3: lists threw:", err);
       }
-    } catch (err) {
-      console.error("[subscribe] E3: lists threw:", err);
     }
 
     if (!listId) {
