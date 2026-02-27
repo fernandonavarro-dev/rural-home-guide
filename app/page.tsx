@@ -114,7 +114,7 @@ export default function Home() {
                 letterSpacing: "0.05em",
               }}
             >
-              Get notified when we launch
+              Get new guides in your inbox
             </p>
             <EmailForm />
           </div>
@@ -127,7 +127,7 @@ export default function Home() {
               marginTop: "0.5rem",
             }}
           >
-            No spam. No sharing. Just a heads-up when we go live.
+            No spam. No sharing. New guides, straight to your inbox.
           </p>
 
           <div style={{ marginTop: "2rem" }}>
