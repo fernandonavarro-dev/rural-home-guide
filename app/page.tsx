@@ -1,3 +1,4 @@
+import Link from "next/link";
 import EmailForm from "./components/EmailForm";
 
 export default function Home() {
@@ -59,7 +60,7 @@ export default function Home() {
               marginBottom: "1.75rem",
             }}
           >
-            Coming soon
+            Now live — read our guides
           </p>
 
           {/* Headline */}
@@ -119,6 +120,27 @@ export default function Home() {
           >
             No spam. No sharing. Just a heads-up when we go live.
           </p>
+
+          <div style={{ marginTop: "2rem" }}>
+            <Link
+              href="/guides"
+              style={{
+                display: "inline-block",
+                fontFamily: "system-ui, sans-serif",
+                fontSize: "0.95rem",
+                fontWeight: 600,
+                color: "#1A3A0F",
+                backgroundColor: "#EEE9DF",
+                border: "1px solid #D1C9B8",
+                borderRadius: "8px",
+                padding: "0.65rem 1.25rem",
+                textDecoration: "none",
+                letterSpacing: "0.01em",
+              }}
+            >
+              Browse the guides →
+            </Link>
+          </div>
         </div>
       </section>
 
