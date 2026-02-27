@@ -6,7 +6,7 @@ const BASE_URL = "https://www.ruralhomeguide.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(BASE_URL),
-  title: "Rural Home Guide — Coming Soon",
+  title: "Rural Home Guide — The Complete Guide to Rural Homeownership",
   description:
     "The complete guide to rural homeownership. Private wells, septic systems, propane, water rights, and everything in between. Real answers — without the jargon.",
   alternates: {
