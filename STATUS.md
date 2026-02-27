@@ -1,6 +1,6 @@
 # Rural Home Guide — Project Status
 
-_Last updated: 2026-02-25 (session 2)_
+_Last updated: 2026-02-27 (session 3)_
 
 ---
 
@@ -45,7 +45,18 @@ _Last updated: 2026-02-25 (session 2)_
 | Listmonk agent access | ✅ Done | Admin creds confirmed working via session-based auth |
 | Email capture end-to-end test | ✅ Done | Full flow tested: session login → UUID-to-ID lookup → subscriber created (confirmed status) |
 | Favicon PNG files | ✅ Done | `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` generated (green #1A3A0F + cream "R") |
-| Facebook page setup | ⏳ Pending | Apply copy from `docs/facebook-page-copy.md`, add cover/profile photo |
+| Facebook page setup | ⏳ Pending | Apply copy from `docs/facebook-page-copy.md`, add cover/profile photo — Nando working on it tomorrow |
+| MDX blog (Next.js) | ⏳ Next | **Decision locked (session 3):** MDX blog built into the existing Next.js repo — not WordPress. 7 AEO drafts in `docs/answer-hubs/` ready to publish once blog is wired up |
+| Amazon Associates | ⏸ Holding | **Decision (session 3):** Waiting for organic growth before applying. No affiliate links until applied + approved. Will revisit when traffic warrants |
+
+---
+
+## 📋 Decisions Log
+
+| Decision | Chosen | Date | Notes |
+|---|---|---|---|
+| Content publishing platform | **MDX blog in Next.js** | 2026-02-27 | Built into existing repo. Not WordPress. |
+| Amazon Associates / monetization | **Hold — organic first** | 2026-02-27 | Apply after meaningful traffic growth |
 
 ---
 
