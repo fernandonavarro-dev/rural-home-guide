@@ -5,7 +5,15 @@ export const alt = "Rural Home Guide — The complete guide to rural homeownersh
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
+const BASE_URL = "https://www.ruralhomeguide.com";
+
 export default async function Image() {
+  // Fetch the logo for embedding in the OG image
+  const logoRes = await fetch(`${BASE_URL}/RHG-v1.png`);
+  const logoArrayBuffer = await logoRes.arrayBuffer();
+  const logoBase64 = btoa(String.fromCharCode(...new Uint8Array(logoArrayBuffer)));
+  const logoSrc = `data:image/png;base64,${logoBase64}`;
+
   return new ImageResponse(
     (
       <div
@@ -20,17 +28,27 @@ export default async function Image() {
           border: "1px solid #E5DFD3",
         }}
       >
-        {/* Wordmark */}
-        <div
-          style={{
-            fontSize: 28,
-            fontWeight: 700,
-            color: "#1A3A0F",
-            fontFamily: "serif",
-            letterSpacing: "0.01em",
-          }}
-        >
-          Rural Home Guide
+        {/* Logo + Wordmark */}
+        <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src={logoSrc}
+            alt="Rural Home Guide"
+            width={72}
+            height={72}
+            style={{ borderRadius: "50%" }}
+          />
+          <div
+            style={{
+              fontSize: 28,
+              fontWeight: 700,
+              color: "#1A3A0F",
+              fontFamily: "serif",
+              letterSpacing: "0.01em",
+            }}
+          >
+            Rural Home Guide
+          </div>
         </div>
 
         {/* Main content */}

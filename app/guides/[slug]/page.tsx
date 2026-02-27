@@ -1,5 +1,6 @@
 import { notFound } from "next/navigation";
 import Link from "next/link";
+import Image from "next/image";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import { getAllGuides, getGuideContent } from "../../../lib/guides";
 import type { Metadata } from "next";
@@ -77,15 +78,31 @@ export default async function GuidePage({ params }: Props) {
           <Link
             href="/"
             style={{
-              fontFamily: "Georgia, serif",
-              fontWeight: 700,
-              fontSize: "1.15rem",
-              color: C.green,
+              display: "flex",
+              alignItems: "center",
+              gap: "0.65rem",
               textDecoration: "none",
-              letterSpacing: "0.02em",
             }}
           >
-            Rural Home Guide
+            <Image
+              src="/RHG-v1.png"
+              alt="Rural Home Guide logo"
+              width={40}
+              height={40}
+              style={{ borderRadius: "50%", flexShrink: 0 }}
+              priority
+            />
+            <span
+              style={{
+                fontFamily: "Georgia, serif",
+                fontWeight: 700,
+                fontSize: "1.15rem",
+                color: C.green,
+                letterSpacing: "0.02em",
+              }}
+            >
+              Rural Home Guide
+            </span>
           </Link>
           <Link
             href="/guides"
