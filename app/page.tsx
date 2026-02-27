@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import EmailForm from "./components/EmailForm";
 
 export default function Home() {
@@ -18,7 +19,15 @@ export default function Home() {
           borderBottom: "1px solid #E5DFD3",
         }}
       >
-        <div style={{ maxWidth: "860px", margin: "0 auto" }}>
+        <div style={{ maxWidth: "860px", margin: "0 auto", display: "flex", alignItems: "center", gap: "0.65rem" }}>
+          <Image
+            src="/RHG-v1.png"
+            alt="Rural Home Guide logo"
+            width={40}
+            height={40}
+            style={{ borderRadius: "50%", flexShrink: 0 }}
+            priority
+          />
           <span
             style={{
               fontFamily: "Georgia, serif",
