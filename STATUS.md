@@ -1,6 +1,6 @@
 # Rural Home Guide — Project Status
 
-_Last updated: 2026-02-27 (session 3)_
+_Last updated: 2026-02-27 (session 4)_
 
 ---
 
@@ -12,14 +12,14 @@ _Last updated: 2026-02-27 (session 3)_
 | Vercel deployment | ✅ Live | https://www.ruralhomeguide.com |
 | Domain live | ✅ Confirmed | ruralhomeguide.com → resolves, 200 OK |
 | Listmonk install | ✅ Done | Self-hosted, server configured |
-| Listmonk list UUID | ✅ Set | In Vercel env vars |
-| Vercel env vars | ✅ Set | LISTMONK_URL, LISTMONK_LIST_UUID, LISTMONK_USERNAME, LISTMONK_PASSWORD |
-| Email capture API route | ✅ Done | `/app/api/subscribe/route.ts` |
+| Vercel env vars | ✅ Set | LISTMONK_URL, LISTMONK_LIST_UUID, LISTMONK_LIST_ID, LISTMONK_USERNAME, LISTMONK_PASSWORD |
+| Email capture API route | ✅ Done | `/app/api/subscribe/route.ts` — node:https, session-based auth, LISTMONK_LIST_ID shortcut |
+| Email flow end-to-end | ✅ Verified | Signup confirmed landing in Listmonk (tested 2026-02-27) |
 | Facebook page | ✅ Secured | Username: `ruralhomeguide` |
 | Listmonk admin access | ✅ Established | Dashboard accessible |
 | SEO meta tags | ✅ Done | OG + Twitter/X cards, canonical URL, robots meta |
 | robots.txt | ✅ Done | `public/robots.txt` — allows all, points to sitemap |
-| sitemap.xml | ✅ Done | `app/sitemap.ts` — Next.js auto-generated at `/sitemap.xml` |
+| sitemap.xml | ✅ Done | `app/sitemap.ts` — all pages + all 7 guides auto-included |
 | Web manifest | ✅ Done | `public/site.webmanifest` — theme/bg colors, icons |
 | Favicon meta | ✅ Done | Apple touch icon, 16/32px PNG, manifest link in layout |
 | Accessibility — form | ✅ Done | aria-label, aria-live, aria-invalid, role=alert, sr-only label, autocomplete |
@@ -31,23 +31,36 @@ _Last updated: 2026-02-27 (session 3)_
 | OG image (dynamic) | ✅ Done | `app/opengraph-image.tsx` — edge runtime, auto-renders 1200×630 on deploy |
 | OG image spec | ✅ Done | `docs/og-image-spec.md` — full layout, colors, type, manual + code options |
 | Content outline | ✅ Done | `docs/content-outline.md` — 24 article briefs, 6 pillars, launch slate, calendar |
+| MDX blog pipeline | ✅ Done | `@next/mdx`, `next-mdx-remote`, `gray-matter` installed; `next.config.ts` updated; `mdx-components.tsx` created |
+| MDX content library | ✅ Done | `content/guides/` — 7 full MDX articles with frontmatter |
+| Guides index page | ✅ Done | `/guides` — lists all articles, category labels, descriptions |
+| Individual guide pages | ✅ Done | `/guides/[slug]` — full MDX rendering, prose styles, SEO metadata per article |
+| Prose styles | ✅ Done | `app/globals.css` — `.prose-rural` class: headings, tables, lists, links, blockquotes |
+| Homepage updated | ✅ Done | Badge → "Now live — read our guides"; "Browse the guides →" button added |
+| 7 guides published | ✅ Live | All routes 200 OK, full content, correct SEO titles |
 
 ---
 
-## 🔄 In Progress / Pending
+## 📄 Published Guides
+
+| Guide | URL | Status |
+|---|---|---|
+| Buying Rural Land — Complete Guide | `/guides/buying-rural-land-complete-guide` | ✅ Live |
+| Moving from City to Rural — Survival Guide | `/guides/moving-from-city-to-rural-guide` | ✅ Live |
+| Rural Home Annual Maintenance Checklist | `/guides/rural-home-annual-maintenance-checklist` | ✅ Live |
+| Rural Internet Options — Buyer's Guide | `/guides/rural-internet-options-guide` | ✅ Live |
+| Rural Utilities Complete Guide | `/guides/rural-utilities-complete-guide` | ✅ Live |
+| Rural Zoning & Permits Guide | `/guides/rural-zoning-permits-guide` | ✅ Live |
+| The True Cost of Rural Living | `/guides/true-cost-of-rural-living` | ✅ Live |
+
+---
+
+## 🔄 Pending
 
 | Item | Status | Notes |
 |---|---|---|
-| OG image (dynamic) | ✅ Done | `app/opengraph-image.tsx` — auto-generated via Next.js edge runtime, no static file needed |
-| Vercel Analytics | ✅ Done | `@vercel/analytics` installed, `<Analytics />` in layout — active on next deploy |
-| OG image spec | ✅ Done | `docs/og-image-spec.md` — full layout, colors, typography, Figma/Canva/code options |
-| Content outline | ✅ Done | `docs/content-outline.md` — 24 articles across 6 pillars, launch slate, editorial calendar |
-| Listmonk agent access | ✅ Done | Admin creds confirmed working via session-based auth |
-| Email capture end-to-end test | ✅ Done | Full flow tested: session login → UUID-to-ID lookup → subscriber created (confirmed status) |
-| Favicon PNG files | ✅ Done | `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` generated (green #1A3A0F + cream "R") |
-| Facebook page setup | ⏳ Pending | Apply copy from `docs/facebook-page-copy.md`, add cover/profile photo — Nando working on it tomorrow |
-| MDX blog (Next.js) | ⏳ Next | **Decision locked (session 3):** MDX blog built into the existing Next.js repo — not WordPress. 7 AEO drafts in `docs/answer-hubs/` ready to publish once blog is wired up |
-| Amazon Associates | ⏸ Holding | **Decision (session 3):** Waiting for organic growth before applying. No affiliate links until applied + approved. Will revisit when traffic warrants |
+| Facebook page setup | ⏳ Pending | Nando working on it — copy ready in `docs/facebook-page-copy.md` |
+| Amazon Associates | ⏸ Holding | Waiting for organic growth before applying — revisit when traffic warrants |
 
 ---
 
@@ -60,26 +73,21 @@ _Last updated: 2026-02-27 (session 3)_
 
 ---
 
-## 🔑 Listmonk Access — How to Give Me Access
+## 🌐 Site Check (2026-02-27)
 
-**Recommended: Create a dedicated AI agent account**
-
-1. Log in to Listmonk admin dashboard
-2. Go to **Settings → Users**
-3. Create a new user:
-   - **Username:** `clawdbot`
-   - **Password:** something strong — share it here or in Slack DM
-   - **Role:** Admin (needed for subscriber API access)
-4. Share the credentials + the dashboard URL (e.g. `http://YOUR_SERVER_IP:9000`)
-
----
-
-## 🌐 Site Check (2026-02-25)
-
-- **URL:** https://www.ruralhomeguide.com
-- **Status:** ✅ Live, HTTP 200
-- **Page content:** "Coming soon" holding page with email capture form
-- **Copy:** "The complete guide to rural homeownership. Private wells. Septic systems. Propane. Land. Water rights."
+| Route | Status |
+|---|---|
+| `/` | ✅ 200 |
+| `/guides` | ✅ 200 |
+| `/guides/buying-rural-land-complete-guide` | ✅ 200 |
+| `/guides/moving-from-city-to-rural-guide` | ✅ 200 |
+| `/guides/rural-home-annual-maintenance-checklist` | ✅ 200 |
+| `/guides/rural-internet-options-guide` | ✅ 200 |
+| `/guides/rural-utilities-complete-guide` | ✅ 200 |
+| `/guides/rural-zoning-permits-guide` | ✅ 200 |
+| `/guides/true-cost-of-rural-living` | ✅ 200 |
+| `/sitemap.xml` | ✅ 200 |
+| `/api/subscribe` | ✅ `{"success":true}` — confirmed in Listmonk |
 
 ---
 
@@ -93,8 +101,10 @@ _Last updated: 2026-02-27 (session 3)_
 
 ## 🏗️ Stack
 
-- **Frontend:** Next.js (App Router) → Vercel
-- **Email:** Listmonk (self-hosted)
+- **Frontend:** Next.js 16 (App Router) → Vercel
+- **Content:** MDX (`next-mdx-remote`, `gray-matter`) — `content/guides/`
+- **Email:** Listmonk v6 (self-hosted) — session auth via `node:https`
+- **Analytics:** Vercel Analytics
 - **Domain:** ruralhomeguide.com
 - **Repo:** github.com/fernandonavarro-dev/rural-home-guide
 - **Agent branch:** `dev-clawdbot`
