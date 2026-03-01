@@ -1,6 +1,6 @@
 # Rural Home Guide — Project Status
 
-_Last updated: 2026-02-27 (session 4)_
+_Last updated: 2026-03-01 (session 5)_
 
 ---
 
@@ -42,6 +42,8 @@ _Last updated: 2026-02-27 (session 4)_
 | Prose styles | ✅ Done | `app/globals.css` — `.prose-rural` class: headings, tables, lists, links, blockquotes |
 | Homepage updated | ✅ Done | Badge → "Now live — read our guides"; "Browse the guides →" button added |
 | 7 guides published | ✅ Live | All routes 200 OK, full content, correct SEO titles |
+| Private Well 101 article | ✅ Done | `content/guides/private-well-101.mdx` — Wells pillar hub (2026-03-01) |
+| Internal linking audit | ✅ Done | 10 inline links added across 7 existing guides; see `docs/internal-linking-audit.md` (2026-03-01) |
 
 ---
 
@@ -56,6 +58,7 @@ _Last updated: 2026-02-27 (session 4)_
 | Rural Utilities Complete Guide | `/guides/rural-utilities-complete-guide` | ✅ Live |
 | Rural Zoning & Permits Guide | `/guides/rural-zoning-permits-guide` | ✅ Live |
 | The True Cost of Rural Living | `/guides/true-cost-of-rural-living` | ✅ Live |
+| Private Well 101: What Every New Rural Homeowner Needs to Know | `/guides/private-well-101` | ✅ Live |
 
 ---
 
@@ -65,6 +68,7 @@ _Last updated: 2026-02-27 (session 4)_
 |---|---|---|
 | Facebook page setup | ⏳ Pending | Nando working on it — copy ready in `docs/facebook-page-copy.md` |
 | Amazon Associates | ⏸ Holding | Waiting for organic growth before applying — revisit when traffic warrants |
+| Wells pillar — remaining articles | 📋 Planned | Well Water Testing Guide, Well Pump Troubleshooting, Well Water Filtration Guide (slugs reserved) |
 
 ---
 
